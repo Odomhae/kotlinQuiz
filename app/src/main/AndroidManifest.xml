@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.quizlocker">
+    <!-- 외부저장소에 읽기, 쓰기 권한 요청 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <!-- 부팅 완료시 브로드캐스트 수신을 위한 권한 요청 -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <!-- ForeGround 서비스 실행 권한 -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <!-- 진동 서비스 사용 권한 요청 -->
+    <uses-permission android:name="android.permission.VIBRATE"/>
+
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".QuizLockerActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <service
+            android:name=".LockScreenService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity android:name=".MainActivity">
+
+        </activity>
+    </application>
+
+</manifest>

@@ -1,0 +1,23 @@
+[
+  {
+    "id" : 1,
+    "question": "대한민국의\n 수도는?",
+    "choice1" : "서울",
+    "choice2" : "도쿄",
+    "answer" : "서울"
+  },
+  {
+    "id" : 2,
+    "question": "네팔의\n 수도는?",
+    "choice1" : "서울",
+    "choice2" : "카트만두",
+    "answer" : "카트만두"
+  },
+  {
+    "id" : 3,
+    "question": "라오스의\n 수도는?",
+    "choice1" : "베이루트",
+    "choice2" : "리스본",
+    "answer" : "베이루트"
+  }
+]
