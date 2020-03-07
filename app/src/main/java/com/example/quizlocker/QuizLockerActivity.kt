@@ -32,7 +32,7 @@ class QuizLockerActivity : AppCompatActivity() {
             // 잠금화면에서 보여지도록 설정
             setShowWhenLocked(true)
             // 잠금해제
-            val keyguardManager = getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
+            val keyguardManager = getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager //KeyguardManager 자료형
             keyguardManager.requestDismissKeyguard(this, null)
         }else{
             // 잠금화면에서 보여지도록 설정
@@ -50,7 +50,7 @@ class QuizLockerActivity : AppCompatActivity() {
         val json = assets.open("capital.json").reader().readText()
         val quizArray = JSONArray(json)
 
-        // 퀴즈 선택
+        // 랜덤으로 퀴즈 선택
         quiz = quizArray.getJSONObject(Random.nextInt(quizArray.length()))
         //퀴즈 보여줌
         quizLabel.text = quiz?.getString("question")
@@ -58,7 +58,8 @@ class QuizLockerActivity : AppCompatActivity() {
         choice2.text = quiz?.getString("choice2")
 
         // 정답, 오답 횟수 보여줌
-        val id = quiz?.getInt("id").toString() ?: ""
+        // id별로 횟수 다름
+        val id = quiz?.getInt("id").toString()
         correctCountLabel.text = "정답횟수 : ${correctAnswerPref.getInt(id, 0)}"
         wrongCountLabel.text = "오답횟수 : ${wrongAnswerPref.getInt(id, 0)}"
 
@@ -89,7 +90,7 @@ class QuizLockerActivity : AppCompatActivity() {
 
             // 터지 조작 다 끝낸 경우
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                val progress = seekBar?.progress ?:50 // 널값을 허용하지 않는 변수에 널 값이 들어 갔을때 널 값을 변환할 수 있는 함수의 결과
+                val progress = seekBar?.progress ?:50 // 널값을 허용하지 않는 변수에 널 값이 들어 갔을때 50으로
 
                 when{
                     progress >95 -> checkChoice(quiz?.getString("choice2") ?: "")
@@ -110,6 +111,7 @@ class QuizLockerActivity : AppCompatActivity() {
                 //정답이면 정답 횟수 늘려주고 액티비티 종료
                 choice == it.getString("answer") ->{
                     val id = it.getInt("id").toString()
+                    //id에 해당하는 정답횟수 가져옴
                     var count = correctAnswerPref.getInt(id, 0)
                     count++
                     correctAnswerPref.edit().putInt(id, count).apply()
@@ -135,8 +137,8 @@ class QuizLockerActivity : AppCompatActivity() {
                     val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
                     // SDk 버전에 따라
                     if(Build.VERSION.SDK_INT >= 26){
-                        // 1초동안 100의 세기로 진동
-                        vibrator.vibrate(VibrationEffect.createOneShot(1000, 100))
+                        // 0.5초동안 100의 세기로 진동
+                        vibrator.vibrate(VibrationEffect.createOneShot(500, 100))
                     }else{
                         vibrator.vibrate(1000)
                     }

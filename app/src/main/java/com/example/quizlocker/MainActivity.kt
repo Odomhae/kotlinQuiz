@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.preference.MultiSelectListPreference
 import android.preference.PreferenceFragment
 import android.preference.SwitchPreference
+import android.util.Log
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.HashSet
 
@@ -19,6 +20,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // preferenceContent 아이디 부분에 fragment 넣기
         fragmentManager.beginTransaction().replace(R.id.preferenceContent, fragment).commit()
 
         //버튼 클릭되면 오답, 정답 초기화
@@ -47,23 +49,27 @@ class MainActivity : AppCompatActivity() {
             val categoryPref = findPreference("category") as MultiSelectListPreference
             categoryPref.summary = categoryPref.values.joinToString(", ")
 
+
             // 환경설정 정보값이 변경되면 요약정보도 같이 변경되게 리스터 등록
             categoryPref.setOnPreferenceChangeListener { preference, newValue ->
                 val newValueSet = newValue as? HashSet<*>
                     ?: return@setOnPreferenceChangeListener true
 
                 categoryPref.summary = newValue.joinToString(", ")
+                Log.d("퀴즈종류 : ", categoryPref.summary.toString())
 
                 true
             }
 
             // 퀴즈 잠금화면 사용 스위치 객체 사용
+            // useLockScreen키로 찾음
             val useLockScreenPref = findPreference("useLockScreen") as SwitchPreference
             // 클릭됬을때
             useLockScreenPref.setOnPreferenceClickListener {
                 when{
                     // 퀴즈 잠금화면 사용이 체크된 경우 lockScreenService 실행
                     useLockScreenPref.isChecked ->{
+                        Log.d("ㄴㄴㄴ", "체크")
                         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
                             activity.startForegroundService(Intent(activity, LockScreenService::class.java))
                             }else{
